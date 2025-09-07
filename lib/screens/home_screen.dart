@@ -25,6 +25,8 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
+  final List<String> _pageTiles = ['Focus Timer', 'Habit Tracker', 'Game'];
+
   @override
   Widget build(BuildContext context) {
     final pages = [
@@ -43,9 +45,11 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Pick your category',
+          _pageTiles[_selectedPageIndex], // make it dynamic
           style: Theme.of(context).textTheme.titleLarge!.copyWith(
             color: Theme.of(context).colorScheme.primary,
+            fontSize: 25,
+            fontWeight: FontWeight.bold,
           ),
         ),
       ),

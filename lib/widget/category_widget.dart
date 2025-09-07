@@ -23,7 +23,7 @@ class CategoryWidget extends StatelessWidget {
           borderRadius: BorderRadius.circular(16),
           gradient: LinearGradient(
             colors: [
-              Theme.of(context).colorScheme.secondary.withAlpha(140),
+              Theme.of(context).colorScheme.onPrimary.withAlpha(140),
               Theme.of(context).colorScheme.secondary.withAlpha(230),
             ],
             begin: Alignment.topLeft,
@@ -37,6 +37,8 @@ class CategoryWidget extends StatelessWidget {
               title,
               style: Theme.of(context).textTheme.titleLarge!.copyWith(
                 color: Theme.of(context).colorScheme.primary,
+                fontWeight: FontWeight.bold,
+                fontSize: 28,
               ),
             ),
             const SizedBox(height: 50),

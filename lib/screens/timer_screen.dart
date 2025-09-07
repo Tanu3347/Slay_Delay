@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:wakelock_plus/wakelock_plus.dart';
 
 class TimerScreen extends StatefulWidget {
   const TimerScreen({super.key});
@@ -12,7 +13,7 @@ class TimerScreen extends StatefulWidget {
 }
 
 class _TimerScreenState extends State<TimerScreen> {
-  final int _initialSeconds = 30; //10 while testing
+  int _initialSeconds = 10; //10 while testing
   int _remainingSeconds = 0;
   Timer? _timer;
   bool _isRunning = false;
@@ -34,18 +35,22 @@ class _TimerScreenState extends State<TimerScreen> {
     setState(() {
       _isRunning = true;
     });
+    WakelockPlus.enable();
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (_remainingSeconds > 0) {
         setState(() {
           _remainingSeconds--;
         });
-      } else {}
+      } else {
+        _finish();
+      }
     });
   }
 
   void _pause() {
     _timer?.cancel();
     _timer = null;
+    WakelockPlus.disable();
     setState(() {
       _isRunning = false;
     });
@@ -54,26 +59,54 @@ class _TimerScreenState extends State<TimerScreen> {
   void _reset() {
     _timer?.cancel();
     _timer = null;
+    WakelockPlus.disable();
     setState(() {
       _isRunning = false;
       _remainingSeconds = _initialSeconds;
     });
   }
 
-  // void _finish() {
-  //   _timer?.cancel();
-  //   _timer = null;
-  //   setState(() {
-  //     _isRunning = false;
-  //     _remainingSeconds = 0;
-  //   });
-  //   if (mounted) {
-  //     ScaffoldMessenger.of(context).clearSnackBars();
-  //     ScaffoldMessenger.of(context).showSnackBar(
-  //       const SnackBar(content: Text('Session complete — take a break!')),
-  //     );
-  //   }
-  // }
+  void _finish() {
+    _timer?.cancel();
+    _timer = null;
+    setState(() {
+      _isRunning = false;
+      _remainingSeconds = 0;
+    });
+    if (mounted) {
+      ScaffoldMessenger.of(context).clearSnackBars();
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text(
+            'Session Completed',
+            style: Theme.of(context).textTheme.titleMedium!.copyWith(
+              color: Theme.of(context).colorScheme.primary,
+            ),
+          ),
+          content: Text(
+            'Task done — take a break!',
+            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+              color: Theme.of(context).colorScheme.primary,
+            ),
+          ),
+          actions: [
+            OutlinedButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text(
+                'Ok',
+                style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+  }
 
   void _handleFocusBroken() {
     _reset();
@@ -98,6 +131,9 @@ class _TimerScreenState extends State<TimerScreen> {
     );
     return elapsed / _initialSeconds;
   }
+
+  final List<int> _predefinedDurations = [25, 45, 60, 120]; // in minutes
+  int _selectedDuration = 25; // default value
 
   @override
   Widget build(BuildContext context) {
@@ -151,7 +187,6 @@ class _TimerScreenState extends State<TimerScreen> {
         }
       },
       child: Scaffold(
-        // appBar: AppBar(title: const Text('Your Focus Timer')),
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -193,6 +228,50 @@ class _TimerScreenState extends State<TimerScreen> {
                   ),
                   const SizedBox(width: 30),
                   ElevatedButton(onPressed: _reset, child: const Text('Reset')),
+                ],
+              ),
+              const SizedBox(height: 28),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Focus Duration:  ',
+                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                      color: Theme.of(context).colorScheme.outline,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                    ),
+                  ),
+                  DropdownButton(
+                    value: _selectedDuration,
+                    items: _predefinedDurations
+                        .map(
+                          (minutes) => DropdownMenuItem(
+                            value: minutes,
+                            child: Text(
+                              '$minutes min',
+                              style: Theme.of(context).textTheme.bodyLarge!
+                                  .copyWith(
+                                    color: Theme.of(
+                                      context,
+                                    ).colorScheme.outline,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18,
+                                  ),
+                            ),
+                          ),
+                        )
+                        .toList(),
+                    onChanged: (val) {
+                      if (val != null) {
+                        setState(() {
+                          _selectedDuration = val;
+                          _initialSeconds = val * 60;
+                          _remainingSeconds = _initialSeconds;
+                        });
+                      }
+                    },
+                  ),
                 ],
               ),
             ],

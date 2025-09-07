@@ -27,7 +27,11 @@ class CategoryScreen extends StatelessWidget {
         children: [
           CategoryWidget(
             title: 'Focus Timer',
-            icon: const Icon(Icons.timer),
+            icon: const Icon(
+              Icons.timer,
+              size: 40,
+              color: Color.fromARGB(255, 52, 26, 16),
+            ),
             onSelectCategory: () {
               Navigator.of(context).push(
                 MaterialPageRoute(
@@ -38,7 +42,11 @@ class CategoryScreen extends StatelessWidget {
           ),
           CategoryWidget(
             title: 'Habit Tracker',
-            icon: const Icon(Icons.check_circle),
+            icon: const Icon(
+              Icons.check_circle,
+              size: 40,
+              color: Color.fromARGB(255, 52, 26, 16),
+            ),
             onSelectCategory: () {
               Navigator.of(context).push(
                 MaterialPageRoute(
@@ -49,7 +57,11 @@ class CategoryScreen extends StatelessWidget {
           ),
           CategoryWidget(
             title: 'Mind Refereshing Game',
-            icon: const Icon(Icons.videogame_asset),
+            icon: const Icon(
+              Icons.videogame_asset,
+              size: 40,
+              color: Color.fromARGB(255, 52, 26, 16),
+            ),
             onSelectCategory: () {
               Navigator.of(context).push(
                 MaterialPageRoute(
