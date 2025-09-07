@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:slay_delay/screens/habit_screen.dart';
 import 'package:slay_delay/screens/timer_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -31,12 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     final pages = [
       const TimerScreen(),
-      const Center(
-        child: Text(
-          'Habit Tracker Placeholder',
-          style: TextStyle(color: Colors.white),
-        ),
-      ), // replace later
+      const HabitScreen(),
       const Center(
         child: Text('Game Placeholder', style: TextStyle(color: Colors.white)),
       ), // replace later
@@ -53,7 +49,6 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       ),
-      //drawer: Drawer(),
       bottomNavigationBar: BottomNavigationBar(
         onTap: _selectPage,
         currentIndex: _selectedPageIndex,
