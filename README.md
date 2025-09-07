@@ -1,16 +1,20 @@
-# slay_delay
+Slay Delay: Crush procrastination before it crushes you!
 
-A new Flutter project.
+Overview: Slay Delay is a productivity app built with Flutter to help users fight procrastination. It combines a Focus Timer, Habit Tracker, and a Mind Refreshing Game (coming soon) into one clean and simple app.
 
-## Getting Started
+Features:
+  1. Focus Timer - 
+        Set a focus session and track progress with a circular timer.
+        Prevent accidental exits with confirmation dialog.
+  2. Habit Tracker (in progress) -
+        Track daily habits and build consistency.
+  3. Mind Refreshing Game (coming soon) -
+        Light games to relax and reset your brain.
+  4. Dark Themed UI using Material 3 + Google Fonts for modern look.
+  5. Cross-platform, works on Android, iOS, Web, Desktop (thanks to Flutter).
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Tech Stack:
+  1. Framework: Flutter (Dart)
+  2. UI: Material 3, Google Fonts
+  3. State Management: setState (lightweight)
+  4. Navigation: Navigator API
