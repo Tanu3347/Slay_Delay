@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:slay_delay/screens/game_screen.dart';
 import 'package:slay_delay/screens/habit_screen.dart';
 import 'package:slay_delay/screens/timer_screen.dart';
 
@@ -33,9 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
     final pages = [
       const TimerScreen(),
       const HabitScreen(),
-      const Center(
-        child: Text('Game Placeholder', style: TextStyle(color: Colors.white)),
-      ), // replace later
+      const GameScreen(),
     ];
     // Widget activePage = const TimerScreen();
     return Scaffold(

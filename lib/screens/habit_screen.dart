@@ -138,21 +138,56 @@ class _HabitScreenState extends State<HabitScreen> {
                       final habit = _habits[index];
                       final dateKey = _dateKey(_selectedDate);
                       final isDone = _habitCompletion[habit]?[dateKey] ?? false;
-                      return ListTile(
-                        title: Text(
-                          habit,
-                          style: Theme.of(context).textTheme.titleMedium!
-                              .copyWith(
-                                color: Theme.of(context).colorScheme.primary,
+                      return Dismissible(
+                        key: Key(habit),
+                        direction: DismissDirection.endToStart,
+                        onDismissed: (direction) {
+                          final removedHabit = habit;
+                          final removedCompletion = _habitCompletion[habit];
+                          setState(() {
+                            _habits.removeAt(index);
+                            _habitCompletion.remove(habit);
+                          });
+                          ScaffoldMessenger.of(context).clearSnackBars();
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text('$habit deleted'),
+                              action: SnackBarAction(
+                                label: 'Undo',
+                                onPressed: () {
+                                  setState(() {
+                                    _habits.insert(index, removedHabit);
+                                    _habitCompletion[removedHabit] =
+                                        removedCompletion ?? {};
+                                  });
+                                },
                               ),
+                            ),
+                          );
+                        },
+                        background: Container(
+                          color: const Color.fromARGB(255, 175, 15, 4),
+                          alignment: Alignment.centerRight,
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: const Icon(Icons.delete, color: Colors.white),
                         ),
-                        trailing: Checkbox(
-                          value: isDone,
-                          onChanged: (val) {
-                            setState(() {
-                              _habitCompletion[habit]?[dateKey] = val ?? false;
-                            });
-                          },
+                        child: ListTile(
+                          title: Text(
+                            habit,
+                            style: Theme.of(context).textTheme.titleMedium!
+                                .copyWith(
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
+                          ),
+                          trailing: Checkbox(
+                            value: isDone,
+                            onChanged: (val) {
+                              setState(() {
+                                _habitCompletion[habit]?[dateKey] =
+                                    val ?? false;
+                              });
+                            },
+                          ),
                         ),
                       );
                     },
